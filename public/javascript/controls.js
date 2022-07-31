@@ -63,7 +63,7 @@ function setGameboardSize(rows, cols) {
         result += "<tr>";
         for(let j = 0; j < cols; j++) {
             result +=   "<td id='tile_" + j + "_" + i + "'>" +
-                            "<img width='50px' height='50px' src='images/blank.png' onclick='clickTile(" + j + ", " + i + ")'>" +
+                            "<img width='50px' height='50px' src='public/images/blank.png' onclick='clickTile(" + j + ", " + i + ")'>" +
                         "</td>"
         }
         result += "</tr>";
@@ -135,7 +135,7 @@ function roll() {
  */
 function addImage(x, y, src) {
     const tile = document.getElementById("tile_" + x + "_" + y);
-    tile.innerHTML = "<img width='50px' height='50px' src='images/" + src + "' onclick='clickTile(" + x + ", " + y + ")'>";
+    tile.innerHTML = "<img width='50px' height='50px' src='public/images/" + src + "' onclick='clickTile(" + x + ", " + y + ")'>";
     tile.classList.add("hoverable");
     setTimeout(() => {tile.onclick = () => prepareMoveIcon(x, y, src)}, 100);
 }
@@ -145,7 +145,7 @@ function addImage(x, y, src) {
  */
 function removeImage(x, y) {
     const tile = document.getElementById("tile_" + x + "_" + y);
-    tile.innerHTML = "<img width='50px' height='50px' src='images/blank.png' onclick='clickTile(" + x + ", " + y + ")'>";
+    tile.innerHTML = "<img width='50px' height='50px' src='public/images/blank.png' onclick='clickTile(" + x + ", " + y + ")'>";
     tile.classList.remove("hoverable");
     tile.onclick = null;
 }

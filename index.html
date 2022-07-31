@@ -5,11 +5,11 @@
         <meta charset="utf-8">
         <title>Messages</title>
 
-        <script type="text/javascript" src="javascript/websocket.js"></script>
-        <script type="text/javascript" src="javascript/controls.js"></script>
+        <script type="text/javascript" src="./public/javascript/websocket.js"></script>
+        <script type="text/javascript" src="./public/javascript/controls.js"></script>
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Artifika">
-        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="./public/css/main.css">
     </head>
     <body>
         <table id="columns">
@@ -17,7 +17,7 @@
                 <td id="col1" class="expanded">
                     <div class="window">
                         <button class="windowControl" id="messageMin">
-                            <img src="images/minimize_icon.png">
+                            <img src="public/images/minimize_icon.png">
                         </button>
                         <div id="messageBoard" class="contentBox">
                             <h1>Messages</h1>
@@ -36,13 +36,13 @@
                             <div id="toolbar">
                                 <span>Tools:</span>
                                 <button id="openIconPopup">
-                                    <img src="images/add_icon.png">
+                                    <img src="public/images/add_icon.png">
                                 </button>
                                 <button id="removeIcon">
-                                    <img src="images/remove_icon.png">
+                                    <img src="public/images/remove_icon.png">
                                 </button>
                                 <button id="addColor">
-                                    <img src="images/color_wheel.jpg">
+                                    <img src="public/images/color_wheel.jpg">
                                 </button>
                             </div>
                             <div id="scrollView">
@@ -55,7 +55,7 @@
                 <td id="col3" class="expanded">
                     <div class="window">
                         <button id="actionsMin"class="windowControl">
-                            <img src="images/minimize_icon.png">
+                            <img src="public/images/minimize_icon.png">
                         </button>
                         <div id="actionBox" class="contentBox">
                             <h1>Quick Actions</h1>
@@ -78,19 +78,19 @@
 
         <div id="iconPopup" class="popup hidden">
             <button class="windowControl" id="iconClose">
-                <img src="images/close_icon.png">
+                <img src="public/images/close_icon.png">
             </button>
             <div class="contentBox">
                 <h1>Select Icon</h1>
                 <div class="iconSelect">
-                    <img src="images/cleric.png">
+                    <img src="public/images/cleric.png">
                 </div>
             </div>
         </div>
 
         <div id="colorPopup" class="popup hidden">
             <button class="windowControl" id="colorClose">
-                <img src="images/close_icon.png">
+                <img src="public/images/close_icon.png">
             </button>
             <div class="contentBox">
                 <h1>Color Selector:</h1>
