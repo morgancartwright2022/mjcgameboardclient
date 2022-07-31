@@ -175,7 +175,7 @@ td.hoverableRed:hover {
     top: 30px;
     left: 25%;
     width: 500px;
-    height: 300px;
+    height: 400px;
 }
 
 .iconSelect {
@@ -185,6 +185,8 @@ td.hoverableRed:hover {
     width: 100px;
     height: 100px;
     box-shadow: 0px 0px 3px 2px #3333337a;
+    display: inline-block;
+    margin: 5px;
 }
 
 .iconSelect:hover {

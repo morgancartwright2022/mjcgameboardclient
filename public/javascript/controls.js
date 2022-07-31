@@ -1,4 +1,4 @@
-const allIcons = ["cleric.png"];
+const allIcons = ["cleric.png", "half_orc_fighter.png", "cat_ninja.jpg", "human_thief.png", "kobold.png", "tiefling_mage.jpg", "bartender.jpg", "tristan_char.png"];
 let selectedImage;
 let selectedColor;
 let removingImage;
@@ -275,7 +275,6 @@ function init() {
     const minActionBtn = document.getElementById("actionsMin");
     const closeIconsBtn = document.getElementById("iconClose");
     const rollBtn = document.getElementById("dRoll");
-    const iconSelectBtns = document.getElementsByClassName("iconSelect");
     const openIconPopupBtn = document.getElementById("openIconPopup");
     const removeIconBtn = document.getElementById("removeIcon");
     const openColorPopupBtn = document.getElementById("addColor");
@@ -295,17 +294,28 @@ function init() {
     clearColorBtn.onclick = () => clearColor();
 
     rollBtn.onclick = () => roll();
-
-    for(let i = 0; i < iconSelectBtns.length; i++) {
-        iconSelectBtns[i].onclick = e => {
-            selectIcon(allIcons[i]);
-        }
-    }
 }
 
 function newBoard(rows, cols) {
     setGameboardSize(rows, cols);
     sendMessage("newBoard", {rows, cols});
+}
+
+function loadIcons() {
+    const iconList = document.getElementById("iconList");
+    allIcons.forEach(icon => {
+        iconList.innerHTML += '<div class="iconSelect">' +
+                                 '<img src="public/images/' + icon + '">' +
+                              '</div>';
+    });
+
+    const iconSelectBtns = document.getElementsByClassName("iconSelect");
+    
+    for(let i = 0; i < iconSelectBtns.length; i++) {
+        iconSelectBtns[i].onclick = e => {
+            selectIcon(allIcons[i]);
+        }
+    }
 }
 
 function loadData(gamestate) {
@@ -320,4 +330,5 @@ function loadData(gamestate) {
 
 addEventListener('load', () => {
     init();
+    loadIcons();
 });
