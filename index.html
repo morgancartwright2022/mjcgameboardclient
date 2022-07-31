@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Messages</title>
+
+        <script type="text/javascript" src="javascript/websocket.js"></script>
+        <script type="text/javascript" src="javascript/controls.js"></script>
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Artifika">
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <table id="columns">
+            <tr>
+                <td id="col1" class="expanded">
+                    <div class="window">
+                        <button class="windowControl" id="messageMin">
+                            <img src="images/minimize_icon.png">
+                        </button>
+                        <div id="messageBoard" class="contentBox">
+                            <h1>Messages</h1>
+                            <input type="text" id="nameBox" placeholder="Enter your name.">
+                            <textarea id="messages" rows="20" cols="30" readonly>Welcome to the message board!</textarea>
+                            <br>
+                            <input type="text" id="messageBox" placeholder="Type a message...">
+                            <button id="sendButton">Send</button>
+                        </div>
+                    </div>
+                </td>
+                <td id="col2" class="expanded">
+                    <div class="window">
+                        <div id="boardBox" class="contentBox">
+                            <h1>Gameboard</h1>
+                            <div id="toolbar">
+                                <span>Tools:</span>
+                                <button id="openIconPopup">
+                                    <img src="images/add_icon.png">
+                                </button>
+                                <button id="removeIcon">
+                                    <img src="images/remove_icon.png">
+                                </button>
+                                <button id="addColor">
+                                    <img src="images/color_wheel.jpg">
+                                </button>
+                            </div>
+                            <div id="scrollView">
+                                <table id="gameboard">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td id="col3" class="expanded">
+                    <div class="window">
+                        <button id="actionsMin"class="windowControl">
+                            <img src="images/minimize_icon.png">
+                        </button>
+                        <div id="actionBox" class="contentBox">
+                            <h1>Quick Actions</h1>
+                            <div id="rollBox">
+                                <p>Dice Sim:</p>
+                                <input id="dCount" type="number" value="1">
+                                <span>D</span>
+                                <input id="dSides" type="number" value="20">
+                                <span>+</span>
+                                <input id="dBonus" type="number" value="0">
+                                <br>
+                                <button id="dRoll">Roll</button>
+                                <div id="dResult"></div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <div id="iconPopup" class="popup hidden">
+            <button class="windowControl" id="iconClose">
+                <img src="images/close_icon.png">
+            </button>
+            <div class="contentBox">
+                <h1>Select Icon</h1>
+                <div class="iconSelect">
+                    <img src="images/cleric.png">
+                </div>
+            </div>
+        </div>
+
+        <div id="colorPopup" class="popup hidden">
+            <button class="windowControl" id="colorClose">
+                <img src="images/close_icon.png">
+            </button>
+            <div class="contentBox">
+                <h1>Color Selector:</h1>
+                <p id="colorDisplay">Selected: None</p>
+                <input type="text" id="colorHex" placeholder="#FFFFFF">
+                <br>
+                <button id="colorSubmit">Select</button>
+                <button id="colorClear">Clear</button>
+            </div>
+        </div>
+    </body>
+</html>

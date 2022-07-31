@@ -1,0 +1,17 @@
+body {
+    margin: 0px;
+    background-image: url("../big_trees.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.window {
+    background-color: #e9e5dfe0;
+    overflow: hidden;
+}
+
+div {
+    width: 100px;
+    height: 100px;
+}
