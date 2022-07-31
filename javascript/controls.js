@@ -309,7 +309,6 @@ function newBoard(rows, cols) {
 }
 
 function loadData(gamestate) {
-    console.log(gamestate);
     setGameboardSize(gamestate.boardSize.rows, gamestate.boardSize.cols);
     gamestate.icons.forEach(icon => {
         addImage(icon.x, icon.y, icon.src);

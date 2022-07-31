@@ -12,6 +12,7 @@ function initSocket() {
     }
 
     ws = new WebSocket("wss://mjcgameboard.herokuapp.com/");
+    //ws = new WebSocket("ws://localhost:3000");
     ws.onopen = () => {
         console.log("Connection opened");
         sendMessage("newClient", {});
@@ -63,7 +64,6 @@ function receiveMessage(message) {
             sendMessage("ping", {});
             break;
         case "serverData":
-            console.log(params);
             loadData(params.gamestate);
             break;
         default:
