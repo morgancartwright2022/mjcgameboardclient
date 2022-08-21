@@ -35,15 +35,22 @@
                             <h1>Gameboard</h1>
                             <div id="toolbar">
                                 <span>Tools:</span>
+                                <button id="moveIcon">
+                                    <img src="public/images/move_icon.png">
+                                </button>
                                 <button id="openIconPopup">
                                     <img src="public/images/add_icon.png">
                                 </button>
                                 <button id="removeIcon">
                                     <img src="public/images/remove_icon.png">
                                 </button>
-                                <button id="addColor">
-                                    <img src="public/images/color_wheel.jpg">
-                                </button>
+                                <span id="colorToolField">
+                                    <button id="addColor">
+                                        <img src="public/images/color_wheel.png">
+                                    </button>
+                                    <br>
+                                    <div id="colorIndicator" class="hidden"></div>
+                                </span>
                             </div>
                             <div id="scrollView">
                                 <table id="gameboard">
@@ -68,7 +75,10 @@
                                 <input id="dBonus" type="number" value="0">
                                 <br>
                                 <button id="dRoll">Roll</button>
-                                <div id="dResult"></div>
+                                <div id="dResult">&nbsp;</div>
+                                <button id="dSend">
+                                    <img src="public/images/send_icon.png">
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -95,8 +105,7 @@
             <div class="contentBox">
                 <h1>Color Selector:</h1>
                 <p id="colorDisplay">Selected: None</p>
-                <input type="text" id="colorHex" placeholder="#FFFFFF">
-                <br>
+                <input type="color" id="colorHex" placeholder="#FFFFFF">
                 <button id="colorSubmit">Select</button>
                 <button id="colorClear">Clear</button>
             </div>

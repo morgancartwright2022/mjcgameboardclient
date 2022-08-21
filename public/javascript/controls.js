@@ -1,7 +1,17 @@
-const allIcons = ["cleric.png", "half_orc_fighter.png", "cat_ninja.jpg", "human_thief.png", "kobold.png", "tiefling_mage.jpg", "bartender.jpg", "tristan_char.png"];
+const allIcons = ["cleric.png", "half_orc_fighter.png", "cat_ninja.jpg", "human_thief.png", "kobold.png", "tiefling_mage.png", "bartender.jpg", "tristan_char.png"];
 let selectedImage;
 let selectedColor;
 let removingImage;
+let curBoardId = -1;
+let lastRoll;
+
+function getName() {
+    const nameBox = document.getElementById("nameBox");
+    if(nameBox.value.trim().length < 1)
+        return "Anonymous";
+    else
+        return nameBox.value;
+}
 
 /*
  * Toggle the display of a container with the given id
@@ -62,7 +72,7 @@ function setGameboardSize(rows, cols) {
     for(let i = 0; i < rows; i++) {
         result += "<tr>";
         for(let j = 0; j < cols; j++) {
-            result +=   "<td id='tile_" + j + "_" + i + "'>" +
+            result +=   "<td class='gameTile' id='tile_" + j + "_" + i + "'>" +
                             "<img width='50px' height='50px' src='public/images/blank.png' onclick='clickTile(" + j + ", " + i + ")'>" +
                         "</td>"
         }
@@ -124,11 +134,48 @@ function roll() {
     result += bonus;
 
     resultBox.innerHTML = result;
-    if(result === max)
+    if(result === max) {
         resultBox.classList.add("crit");
-    else
+    }
+    else {
         resultBox.classList.remove("crit");
+    }
+
+    saveRollResult(count, sides, bonus, result, result === max);
 }
+
+/*
+ * Save the results of a roll for chat
+ */
+function saveRollResult(count, sides, bonus, result, isCrit) {
+    let ret = count + "d" + sides;
+    if(bonus > 0)
+        ret += "+" + bonus;
+    else if(bonus < 0)
+        ret += "-" + Math.abs(bonus);
+    
+    ret += " >> " + result;
+
+    if(isCrit) ret += "!";
+    else ret += "."
+
+    lastRoll = ret;
+}
+
+/*
+ * Send a roll result in chat
+ */
+function sendRoll() {
+    if(lastRoll) {
+        const text = getName() + " rolled a die: " + lastRoll;
+        showChat(text);
+        sendMessage("chat", {text});
+        
+        if(!lastRoll.includes("(repeat)"))
+            lastRoll += " (repeat)";
+    }
+}
+
 
 /*
  * Add an image to a tile
@@ -154,34 +201,38 @@ function removeImage(x, y) {
  * Add a color
  */
 function addColor(x, y, hex) {
-    console.log(x, y, hex);
     const tile = document.getElementById("tile_" + x + "_" + y);
     tile.style.backgroundColor = hex;
 }
 
+/*
+ * Remove a color
+ */
+function removeColor(x, y) {
+    const tile = document.getElementById("tile_" + x + "_" + y);
+    tile.style.backgroundColor = "";
+}
 
 /*
  * Handle tile clicks
  */
 function clickTile(x, y) {
-    if(selectedImage) {
+    if(selectedColor) {
+        const hex = selectedColor;
+        addColor(x, y, hex);
+        sendMessage("addColor", {x, y, hex});
+    }
+    else if(selectedImage) {
         const src = selectedImage;
+        removeImage(x, y);
         addImage(x, y, src);
         selectedImage = null;
         sendMessage("addIcon", {x, y, src});
     }
-
-    if(removingImage) {
-        removeImage(x, y, selectedImage);
+    else if(removingImage) {
+        removeImage(x, y);
         removingImage = false;
         sendMessage("removeIcon", {x, y});
-    }
-
-    if(selectedColor) {
-        const hex = selectedColor;
-        addColor(x, y, hex);
-        console.log(x, y, hex);
-        sendMessage("addColor", {x, y, hex});
     }
     
     if(!selectedColor)
@@ -201,20 +252,29 @@ function showChat(text) {
  */
 function sendChat() {
     const msgBox = document.getElementById("messageBox");
-    const nameBox = document.getElementById("nameBox");
 
-    const text = nameBox.value + ": " + msgBox.value;
+    const text = getName() + ": " + msgBox.value;
     showChat(text);
     sendMessage("chat", {text});
     msgBox.value = "";
 }
 
 /*
+ * Reset all tool related variables
+ */
+function resetTools() {
+    setGameboardHover(false);
+    selectedImage = null;
+    removingImage = false;
+    clearColor();
+}
+
+/*
  * Select an icon for placement
  */
 function selectIcon(src) {
+    resetTools();
     selectedImage = src;
-    removingImage = false;
     hideContainer("iconPopup");
     setGameboardHover(true);
 }
@@ -223,7 +283,7 @@ function selectIcon(src) {
  * Prepare to remove an icon
  */
 function prepareRemoveIcon() {
-    selectedImage = null;
+    resetTools();
     removingImage = true;
     setGameboardHoverRed(true);
 }
@@ -232,7 +292,9 @@ function prepareRemoveIcon() {
  * Prepare to move an icon
  */
 function prepareMoveIcon(x, y, src) {
-    if(!selectedColor) {
+    if(!selectedColor && !selectedImage && !removingImage) {
+        resetTools();
+
         // Prepare to add a new tile
         selectIcon(src);
 
@@ -245,25 +307,30 @@ function prepareMoveIcon(x, y, src) {
 }
 
 function selectColor() {
+    resetTools();
     const hex = document.getElementById("colorHex").value;
     const colorDisplay = document.getElementById("colorDisplay");
+    const colorIndicator = document.getElementById("colorIndicator");
 
     const regex = /[0-9A-Fa-f]{6}/g;
     if(hex.length === 7 && regex.test(hex.substring(1))) {
         selectedColor = hex;
         colorDisplay.innerHTML = "Selected: " + hex;
+        colorIndicator.style.backgroundColor = hex;
+        showContainer("colorIndicator");
         hideContainer("colorPopup");
     }
+
+    setGameboardHover(true);
 }
 
 function clearColor() {
     const colorDisplay = document.getElementById("colorDisplay");
-
     selectedColor = null;
-
     colorDisplay.innerHTML = "Selected: none";
-
+    hideContainer("colorIndicator");
     hideContainer("colorPopup");
+    setGameboardHover(false);
 }
 
 /*
@@ -277,10 +344,12 @@ function init() {
     const rollBtn = document.getElementById("dRoll");
     const openIconPopupBtn = document.getElementById("openIconPopup");
     const removeIconBtn = document.getElementById("removeIcon");
+    const moveIconBtn = document.getElementById("moveIcon");
     const openColorPopupBtn = document.getElementById("addColor");
     const closeColorBtn = document.getElementById("colorClose");
     const selectedColorBtn = document.getElementById("colorSubmit");
     const clearColorBtn = document.getElementById("colorClear");
+    const sendRollBtn = document.getElementById("dSend");
 
     // Add listeners
     minMsgBtn.onclick = () => toggleContainer("messageBoard", "col1");
@@ -292,6 +361,8 @@ function init() {
     closeColorBtn.onclick = () => hideContainer("colorPopup");
     selectedColorBtn.onclick = () => selectColor();
     clearColorBtn.onclick = () => clearColor();
+    sendRollBtn.onclick = () => sendRoll();
+    moveIconBtn.onclick = () => resetTools();
 
     rollBtn.onclick = () => roll();
 }
@@ -299,6 +370,10 @@ function init() {
 function newBoard(rows, cols) {
     setGameboardSize(rows, cols);
     sendMessage("newBoard", {rows, cols});
+}
+
+function retrieveBoard(boardId) {
+    sendMessage("loadBoard", {boardId});
 }
 
 function loadIcons() {
@@ -318,7 +393,12 @@ function loadIcons() {
     }
 }
 
+function setBoardId(id) {
+    curBoardId = id;
+}
+
 function loadData(gamestate) {
+    setBoardId(gamestate.id);
     setGameboardSize(gamestate.boardSize.rows, gamestate.boardSize.cols);
     gamestate.icons.forEach(icon => {
         addImage(icon.x, icon.y, icon.src);
@@ -326,6 +406,11 @@ function loadData(gamestate) {
     gamestate.colors.forEach(color => {
         addColor(color.x, color.y, color.hex);
     });
+}
+
+function saveBoard() {
+    if(curBoardId !== -1)
+        sendMessage("saveBoard", {boardId: curBoardId});
 }
 
 addEventListener('load', () => {

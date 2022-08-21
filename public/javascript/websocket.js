@@ -55,6 +55,7 @@ function receiveMessage(message) {
             removeImage(params.x, params.y);
             break;
         case "newBoard":
+            setBoardId(params.boardId);
             setGameboardSize(params.rows, params.cols);
             break;
         case "addColor":
