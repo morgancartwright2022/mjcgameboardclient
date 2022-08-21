@@ -212,8 +212,9 @@ td.hoverableRed:hover {
 #iconPopup {
     top: 30px;
     left: 25%;
-    width: 500px;
-    height: 400px;
+    width: 550px;
+    height: 550px;
+    overflow: scroll;
 }
 
 .iconSelect {

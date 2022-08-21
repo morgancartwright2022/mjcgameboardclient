@@ -1,4 +1,26 @@
-const allIcons = ["cleric.png", "half_orc_fighter.png", "cat_ninja.jpg", "human_thief.png", "kobold.png", "tiefling_mage.png", "bartender.jpg", "tristan_char.png"];
+const allIcons = [
+    "tiefling_mage.png",
+    "half_orc_barbarian.png",
+    "cat_ninja.png",
+    "human_adventurer.png",
+    "cleric.png",
+    "human_fighter.png",
+    "human_sorceress.png",
+    "human_thief.png",
+    "bartender.jpg",
+    "noble_1.png",
+    "noble_2.png",
+    "kobold.png",
+    "kobold_chieftain.png",
+    "goblin.png",
+    "orc.png",
+    "zombie.png",
+    "skeleton.png",
+    "wolf.png",
+    "snake.png",
+    "chest.png",
+    "door.png"
+];
 let selectedImage;
 let selectedColor;
 let removingImage;
