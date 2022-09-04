@@ -14,10 +14,18 @@ const allIcons = [
     "kobold_chieftain.png",
     "goblin.png",
     "orc.png",
+    "boggard.png",
+    "bugbear.png",
+    "lizardfolk.png",
+    "harpy.png",
     "zombie.png",
     "skeleton.png",
     "wolf.png",
     "snake.png",
+    "boar.png",
+    "frog.png",
+    "centipede.png",
+    "bats.png",
     "chest.png",
     "door.png"
 ];
